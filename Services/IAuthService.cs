@@ -1,4 +1,5 @@
-﻿using CobranzaPlus.Models.Dtos;
+﻿using CobranzaPlus.Models;
+using CobranzaPlus.Models.Dtos;
 
 namespace CobranzaPlus.Services
 {
@@ -6,5 +7,7 @@ namespace CobranzaPlus.Services
     {
         Task<AuthResponseDto> Register(RegisterDto dto);
         Task<AuthResponseDto> Login(LoginDto dto);
+
+        Task<List<AppUsuario>> ObtenerUsarios();
     }
 }

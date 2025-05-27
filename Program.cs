@@ -1,5 +1,6 @@
 using CobranzaPlus.Context;
 using CobranzaPlus.Models;
+using CobranzaPlus.Repositories;
 using CobranzaPlus.Services;
 using CobranzaPlus.Token;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddIdentity<AppUsuario, IdentityRole>()
     .AddEntityFrameworkStores<CobranzaPlusContext>()

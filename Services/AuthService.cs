@@ -1,5 +1,6 @@
 ﻿using CobranzaPlus.Models;
 using CobranzaPlus.Models.Dtos;
+using CobranzaPlus.Repositories;
 using CobranzaPlus.Token;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,17 +9,18 @@ namespace CobranzaPlus.Services
     public class AuthService : IAuthService
     {
 
-
+        private readonly IUserRepository _repo;
         private readonly UserManager<AppUsuario> _userManager;
         private readonly SignInManager<AppUsuario> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly IJwtGenerator _jwt;
-        public AuthService(SignInManager<AppUsuario> signInManager, IConfiguration configuration, UserManager<AppUsuario> userManager, IJwtGenerator jwt)
+        public AuthService(SignInManager<AppUsuario> signInManager, IConfiguration configuration, UserManager<AppUsuario> userManager, IJwtGenerator jwt, IUserRepository repo)
         {
             _signInManager = signInManager;
             _configuration = configuration;
             _userManager = userManager;
             _jwt = jwt;
+            _repo = repo;
         }
 
         public async Task<AuthResponseDto> Login(LoginDto dto)
@@ -40,6 +42,20 @@ namespace CobranzaPlus.Services
 
             return await _jwt.CrearToken(user);
 
+        }
+
+        public async Task<List<AppUsuario>> ObtenerUsarios()
+        {
+            try
+            {
+                var result = await _repo.ObtenerUsuarios();
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<AuthResponseDto> Register(RegisterDto dto)
